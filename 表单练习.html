@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS控制表单样式</title>
+    <style type="text/css">
+        :root{
+            --width:400px;
+            --height:300px;
+        }
+        body{
+            color: #9badb4;
+            overflow: hidden;
+            background: url(123.jpg) no-repeat center/cover fixed; 
+        }
+        div{
+            width: 400px;
+            height: 335px;
+            margin:20vh auto;
+            border: 1px solid rgba(255, 255, 255,0.4);
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255,0.2);
+        }
+        form{
+            color: white;
+            line-height: 50px;
+            text-align: center;
+            position: relative;
+            top: 60px;
+        }
+        input[name="number"]{
+            width: 200px;
+            height: 30px;
+            margin:6px;
+            border: 1px solid rgba(255, 255, 255,0.5);
+            border-radius: 8px;
+            color: white;
+            font-size:15px ;  
+        }
+        input[ id="zhanghao"]{
+            background:rgba(255, 255, 255,0.2) url(1.png) no-repeat left 8px top 6px/21px;
+            padding-left:33px;
+        }
+        input[type="password"]{
+            background:rgba(255, 255, 255,0.2) url(2.png) no-repeat left 8px top 6px/21px;
+            padding-left:33px;
+        }
+        input[type="submit"]{
+            width:240px;
+            padding: 10px;
+            border: 0px;
+            border-radius: 8px;
+            color: white;
+            position: relative;
+            top: 15px;
+            left: 24px;
+            background-color: #20cbf6;
+            cursor:pointer;
+        }
+        input[type="submit"]:hover{
+           opacity: 0.85;
+        }
+        input::placeholder{
+            color: rgba(70, 76, 82, 0.849);
+        }
+        input[name="number"]:focus{  
+            box-shadow: 0 0 2px 2px yellow;
+        }
+        input[id="yanzheng"]{
+            position: relative;
+            left: -20px;
+            width: 100px;
+            background:rgba(255, 255, 255,0.2);
+            padding-left: 15px;
+        }
+        canvas{
+            position: relative;
+            top: 8px;
+            width: 80px;
+            border-radius: 3px;
+        }
+        label[for="yanzheng"]{
+            position: relative;
+            left: -7px;
+        }
+    </style>
+    <script>
+    function keyDown(e) 
+    {
+        var keyCode = e.keyCode || e.which || e.charCode;
+        if (keyCode == 13)// 回车键
+        { 
+            if (document.activeElement.id == "zhanghao") 
+            {
+                e.preventDefault(); // 阻止默认行为
+                document.getElementById("mima").focus(); // 聚焦到密码输入框
+            } 
+            
+            else if (document.activeElement.id == "mima") 
+            {
+                e.preventDefault(); // 阻止默认行为
+                document.getElementById("yanzheng").focus(); // 聚焦到验证码输入框
+            } 
+        }
+    }
+
+    function generateCode() {
+        
+      // 生成随机字符
+      var code = "";
+      var charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      for (var i = 0; i < 4; i++) {
+        var index = Math.floor(Math.random() * charSet.length);
+        code += charSet.charAt(index);
+      }
+
+      // 绘制验证码
+      var canvas = document.getElementById("canvas");
+      var context = canvas.getContext("2d");
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.font = "30px Arial";
+      context.fillText(code, 10, 30);
+
+    // 存储验证码到变量中
+    window.number_code = code;
+
+    context.fillStyle = "#9badb4";//验证码背景颜色
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 绘制干扰线条
+    for (var i = 0; i < 15; i++) {
+    context.strokeStyle = "#585454";//干扰线条颜色
+    context.beginPath();
+    context.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+    context.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+    context.stroke();
+    }
+
+    // 绘制文本
+    context.fillStyle = "#333333";//验证码字体颜色
+    context.font = "bold 30px Arial";
+    context.fillText(code, 20, 35);
+    }
+
+    </script>
+</head>
+<body onload="generateCode()">
+    <div>
+        <form action="#" method="post">
+            <label for="zhanghao">账号：</label>
+            <input type="text" name="number" id="zhanghao" placeholder="手机号/QQ号" autofocus onkeydown="keyDown(event)">
+            <br>
+            <label for="mima">密码：</label>
+            <input type="password" name="number" id="mima" placeholder="请输入你的密码" onkeydown="keyDown(event)">
+            <br>
+            <label for="yanzheng">验证码：</label>
+            <input type="text" name="number" id="yanzheng" />
+            <canvas id="canvas" width="120px" height="40px"></canvas>
+            <br>
+            <input type="submit" value="登录" >
+            <br>
+                
+        </form>
+    </div>
+</body>
+</html>
